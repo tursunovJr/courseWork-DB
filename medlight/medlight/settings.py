@@ -79,7 +79,8 @@ DATABASES = {
         'NAME': 'DBmedlight',
         'USER': 'admin',
         'PASSWORD': '6hhv48tt',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
