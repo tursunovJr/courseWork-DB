@@ -76,8 +76,8 @@ WSGI_APPLICATION = 'medlight.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DBmedlight',
-        'USER': 'admin',
+        'NAME': 'dbmedlight',
+        'USER': 'postgres',
         'PASSWORD': '6hhv48tt',
         'HOST': 'localhost',
         'PORT': '5432'
