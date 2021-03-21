@@ -1,0 +1,98 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {russian}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Введение}{5}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}Аналитическая часть}{7}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1}Обзор и анализ существующего по и обоснование необходимости разработки}{7}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.1}Bryce}{7}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.2}Vue 5 Esprit}{8}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.3}VistaPro}{9}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.4}Вывод}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.2}Алгоритмы загрузки и генерации ландшафта}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.1}Представление данных о ландшафте}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Height Map:}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Иррегулярная сетка вершин и связей:}{11}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.2}Алгоритмы генерации рельефа}{12}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Шум Перлина:}{12}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Холмовой алгоритм:}{13}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.3}Вывод}{18}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.3}Алгоритмы визуализации ландшафта и окружающей среды}{19}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.1}Использование карт освещенности}{19}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.2}Наложение текстур}{19}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.3}Смешивание текстур}{20}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.4}Мипмапы}{21}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Билинейная фильтрация}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Трилинейная фильтрация}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.5}Алгоритм Z-буфера}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.3.6}Вывод}{23}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.4}Выводы из аналитической части}{23}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Конструкторская часть}{24}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1}Разработка алгоритмов}{24}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2}Освещение}{26}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3}Модель освещения Фонга и просчет теней}{28}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4}Просчет теней}{29}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5}Вычисление точки пересечения луча с треугольником для построения тени}{30}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.6}Вывод из конструкторской части}{32}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Технологическая часть}{33}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1}Средства реализации}{33}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2}Структура программы}{33}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Входные и выходные данные}{34}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Интерфейс программы}{35}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.1}Интерфейс программы <<Editor>>}{35}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.2}Интерфейс программы <<Viewer>>}{36}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5}Вывод из технологической части}{37}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}Исследовательская часть }{38}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1}Системные характеристики}{38}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2}Постановка эксперимента}{38}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3}Сравнительный анализ на основе замеров времени работы программы}{38}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4}Примеры работы программы}{42}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5}Вывод из исследовательской части}{43}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Заключение}{44}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Список литературы}{45}{}%
