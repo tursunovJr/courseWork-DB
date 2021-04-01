@@ -2,42 +2,45 @@ from django.db import models
 from django.utils import timezone
 
 class Patients(models.Model):
+    #id = models.AutoField(primary_key=True)
     full_name = models.CharField('ФИО', max_length=50, default='')
     date = models.DateField('Дата рождения', auto_now_add=False)
     phone = models.CharField('Номер телефона', max_length=13, default='None')
 
     def __str__(self):
-        return self.full_name#, self.date, self.phone
+        return '%s %s %s' %(self.full_name, self.date, self.phone)
 
     class Meta:
         verbose_name = 'Пациент'
         verbose_name_plural = 'Пациенты'
 
 class Doctors(models.Model):
+    #id = models.AutoField(primary_key=True)
     full_name = models.CharField('ФИО', max_length=50, default='None')
     speciality = models.CharField('Специальность', max_length=50, default='')
     qualification = models.CharField('Квалификация', max_length=50, default='')
     phone = models.CharField('Номер телефона', max_length=13, default='None')
 
     def __str__(self):
-        return self.full_name#, self.speciality, self.qualification, self.phone
+        return '%s %s %s %s ' %(self.full_name, self.speciality, self.qualification, self.phone)
 
     class Meta:
         verbose_name = 'Врач'
         verbose_name_plural = 'Врачи'
 
 class Records(models.Model):
-    patient = models.ForeignKey(Patients, on_delete=models.CASCADE)
-    full_name = models.CharField('ФИО', max_length=50, default='')
-    register_date = models.DateTimeField('Время регистрации', default=timezone.now)
+    #id = models.AutoField(primary_key=True)
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, related_name='records_patients')
+    #full_name = models.CharField('ФИО', max_length=50, default='')
+    register_date = models.DateTimeField('Время регистрации', auto_now=True)
     doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
-    payment_status = models.BooleanField('Оплатил или нет?')
+    payment_status = models.BooleanField('Оплатил')
     used_services = models.CharField('Использованные услуги', max_length=70, default='')
     total_sum = models.IntegerField('Итоговая сумма')
     discharge = models.TextField('Выписка', default='')
 
     def __str__(self):
-        return self.full_name#, self.register_date, self.doctor, self.payment_status, self.total_sum
+        return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)
 
     class Meta:
         verbose_name = 'Запись'

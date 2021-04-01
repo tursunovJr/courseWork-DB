@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Запись пациента {{ get_record.patient.full_name }} у {{ get_record.doctor.speciality }}а</h1>
+    <ul>
+        <li><b>ID:</b> {{ get_record.id }}</li>
+        <li><b>Дата создания:</b> {{ get_record.register_date }}</li>
+        <li><b>Врач:</b> {{ get_record.doctor.speciality }}</li>
+        <li><b>Использованные услуги:</b> {{ get_record.used_services }}</li>
+        <li><b>Выписка:</b> {{ get_record.discharge }}</li>
+        <li><b>Оплата:</b> {{ get_record.payment_status }}</li>
+        <li><b>Итоговая сумма:</b> {{ get_record.total_sum }}</li>
+    </ul>
+    <p><a href="/tmp/{{ get_record.patient.id }}">Вернуться назад</a></p>
+</body>
+</html>
