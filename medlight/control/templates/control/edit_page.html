@@ -1,0 +1,83 @@
+{% extends 'control/index.html' %}
+    {% block content %}
+    {% if update_status %}
+            <h1>Страница Редактирования</h1>
+        <p><a href="{% url 'edit_page' %}">Назад</a></p>
+        <form id="update_form" method="post" >
+              {% csrf_token %}
+              {{ form }}
+          </form>
+        <button form="update_form" type="submit" class="btn btn-primary">Обновить</button>
+    {% else %}
+        <h1 class="mt-4">Админ панель</h1>
+
+
+
+        <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Добавить запись
+    </button>
+        {% if success %}
+
+            <p>Запись добавлена</p>
+        {% endif %}
+
+
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">ФИО</th>
+                <th scope="col">Дата записи</th>
+                <th scope="col">Врач</th>
+                <th scope="col">Использованные услуги</th>
+                <th scope="col">Итоговая сумма</th>
+                <th scope="col">Статус оплаты</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+        <tbody>
+            {% for el in list_records %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ el.patient.full_name }}</td>
+                <td>{{ el.register_date }}</td>
+                <td>{{ el.doctor.speciality}},  {{ el.doctor.full_name}}</td>
+                <td>{{ el.used_services }}</td>
+                <td>{{ el.total_sum }}</td>
+                <td>{{ el.payment_status }}</td>
+                <td><a href="{% url 'delete_page' el.id %}">Удалить</a></td>
+                <td><a href="{% url 'update_page' el.id %}">Редактировать</a></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form id="add_form" method="post" >
+              {% csrf_token %}
+              {{ form }}
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+    {% endblock %}

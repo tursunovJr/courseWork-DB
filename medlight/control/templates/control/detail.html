@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'control/index.html' %}
+    {% block content %}
     <h1>Запись пациента {{ get_record.patient.full_name }} у {{ get_record.doctor.speciality }}а</h1>
     <ul>
         <li><b>ID:</b> {{ get_record.id }}</li>
@@ -16,5 +11,4 @@
         <li><b>Итоговая сумма:</b> {{ get_record.total_sum }}</li>
     </ul>
     <p><a href="/tmp/{{ get_record.patient.id }}">Вернуться назад</a></p>
-</body>
-</html>
+    {% endblock %}
