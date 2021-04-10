@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class RecordForm(forms.ModelForm):
     class Meta:
         model = Records
-        fields = '__all__'
+        fields = ('patient', 'doctor', 'payment_status', 'used_services', 'total_sum', 'discharge')
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:

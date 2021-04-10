@@ -40,8 +40,8 @@
                 <th scope="col">Использованные услуги</th>
                 <th scope="col">Итоговая сумма</th>
                 <th scope="col">Статус оплаты</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Редактирование</th>
+                <th scope="col">Удаление</th>
             </tr>
             </thead>
         <tbody>
@@ -49,22 +49,33 @@
             <tr {% if el.id|slugify == request.GET.id %}style="background: #8b0000" {% endif %}>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ el.patient.full_name }}</td>
-                <td>{{ el.register_date }}</td>
+                <td>{{ el.register_date|date:'d.m.Y'}} - {{ el.author }}</td>
                 <td>{{ el.doctor.speciality}},  {{ el.doctor.full_name}}</td>
                 <td>{{ el.used_services }}</td>
                 <td>{{ el.total_sum }}</td>
                 <td>{{ el.payment_status }}</td>
-                <td><a href="{% url 'update_page' el.id %}">Редактировать</a></td>
                 <td>
-                    <form id="delete_form" action="{% url 'delete_page' el.id %}" method="post">{% csrf_token %}</form>
-                    <a href="javascript:void()" onclick="delete_record()">Удалить</a>
-                    <script>
-                        function delete_record(){
-                            if (confirm("Вы уверены?")){
-                                document.getElementById('delete_form').submit()
+                    {% if request.user == el.author %}
+                        <a href="{% url 'update_page' el.id %}">Редактировать</a>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
+                </td>
+                <td>
+
+                    {% if request.user == el.author %}
+                        <form id="delete_form{{ el.id }}" action="{% url 'delete_page' el.id %}" method="post">{% csrf_token %}</form>
+                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()">Удалить</a>
+                        <script>
+                            function delete_record{{ el.id }}(){
+                                if (confirm("Вы уверены?")){
+                                    document.getElementById('delete_form{{ el.id }}').submit()
+                                }
                             }
-                        }
-                    </script>
+                        </script>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
                 </td>
 
 

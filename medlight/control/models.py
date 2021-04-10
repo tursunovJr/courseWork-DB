@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Patients(models.Model):
     #id = models.AutoField(primary_key=True)
@@ -30,6 +31,7 @@ class Doctors(models.Model):
 
 class Records(models.Model):
     #id = models.AutoField(primary_key=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE, related_name='records_patients')
     #full_name = models.CharField('ФИО', max_length=50, default='')
     register_date = models.DateTimeField('Время регистрации', auto_now=True)
