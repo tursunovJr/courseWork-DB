@@ -2,6 +2,8 @@ from django.http import request
 from .models import Patients, Records
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib.auth import logout
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import RecordForm, AuthUserForm
@@ -10,7 +12,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 class HomeListView(ListView):
+    #login_url = reverse_lazy('login_page')
     model = Patients
     template_name = 'control/index.html'
     context_object_name = 'patients'
@@ -19,6 +23,7 @@ class HomeDetailView(DetailView):
     model = Patients
     template_name = 'control/tmp.html'
     context_object_name = 'get_patient'
+
 
 
 class RecordsDetailView(DetailView):
@@ -44,7 +49,7 @@ class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView
     success_url = reverse_lazy('edit_page')
     success_msg = 'Запись создана'
     def get_context_data(self, **kwargs):
-        kwargs['list_records'] =  Records.objects.all().order_by('-register_date')
+        kwargs['list_records'] = Records.objects.all().order_by('-register_date')
         return super().get_context_data(**kwargs)
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -85,12 +90,17 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
+class MedlightLogoutView(LogoutView):
+    print("LOGOUT completed")
+    next_page = reverse_lazy('control_home') #указываем страницу куда перейдем после логаута
+
 class MedlightLoginView(LoginView):
     template_name = 'control/login.html'
     form_class = AuthUserForm
-    success_url = reverse_lazy('edit_page')
+    print("BEfore")
+    success_url = reverse_lazy('control_home')
+    print("After")
     #def get_success_url(self):
-     #   self.success_url
+        #self.success_url
 
-class MedlightLogoutView(LogoutView):
-    next_page = reverse_lazy('edit_page') #указываем страницу куда перейдем после логаута
+

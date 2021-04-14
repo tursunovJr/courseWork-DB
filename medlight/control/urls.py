@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='control_home'),
+    #path('', views.MedlightLoginView.as_view(), name='login_page'),
     path('tmp/<int:pk>', views.HomeDetailView.as_view()),
     path('tmp/<int:pk>/detail/<int:id>', views.RecordsDetailView.as_view(), name='detail_page'),
     path('edit-page', views.RecordCreateView.as_view(), name='edit_page'),
