@@ -24,8 +24,6 @@ class HomeDetailView(DetailView):
     template_name = 'control/tmp.html'
     context_object_name = 'get_patient'
 
-
-
 class RecordsDetailView(DetailView):
     model = Records
     template_name = 'control/detail.html'
@@ -92,7 +90,7 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
 
 class MedlightLogoutView(LogoutView):
     print("LOGOUT completed")
-    next_page = reverse_lazy('control_home') #указываем страницу куда перейдем после логаута
+    next_page = reverse_lazy('login_page') #указываем страницу куда перейдем после логаута
 
 class MedlightLoginView(LoginView):
     template_name = 'control/login.html'
