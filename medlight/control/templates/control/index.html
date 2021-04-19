@@ -1,69 +1,32 @@
-index old working version :)
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST</title>
+    <title>Menu Hover Line Effect  </title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'control/css/index.css' %}">
+
+
 </head>
+
 <body>
-
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            {% url 'control_home' as url_home %}
-            <a class="nav-link {% if url_home == request.path %} active {% endif %}" href="{{ url_home }}">Главная</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Создать</a>
-        </li>
-        <li class="nav-item">
-            {% url 'edit_page' as url_edit_page %}
-            <a class="nav-link {% if url_edit_page == request.path %} active {% endif %}" href="{{ url_edit_page }}">Редактировать</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Удалить</a>
-        </li>
-
-        {% if request.user.is_authenticated %}
-            <li class="nav-item">
-                {% url 'logout_page' as url_logout_page %}
-                <a class="nav-link btn-danger ml-5" href="{{ url_logout_page }}">Выйти</a>
-            </li>
-            {{ request.user }}
-    </ul>
-    <hr>
-    <hr>
-    {% block content %}
-    <h1>It is a test</h1>
-    {% if patients %}
-        {% for el in patients %}
-            <ul class="list-group.mt-4">
-                <li class="list-group-item">
-                    {{ el.full_name }}
-                    {{ el.date }}
-                    {{ el.phone }}
-                    <span class="float-right.mr-3"> <a href="/tmp/{{ el.id }}">Посмотреть все записи</a></span>
-                    <!-- <span class="float-right.mr-4"> <a href="#">Скачать</a></span>-->
-                    <!-- <span class="float-right.mr-5"> <a href="#">Удалить</a></span> -->
-                </li>
-            </ul>
-        {% endfor %}
-    {% else %}
-        <p>No dataf</p>
-    {% endif %}
-    {% endblock %}
-        {% else %}
-            <li class="nav-item">
-                {% url 'login_page' as url_login_page %}
-                <a class="nav-link {% if url_login_page == request.path %} active {% endif %}" href="{{ url_login_page}}">Авторизация</a>
-            </li>
-
-        {% endif %}
+    <div class="sign">
+	    <span class="sign__word">MedLight</span>
+	    <span class="sign__word">clinic</span>
+    </div>
+  <nav>
+  <ul class="menu">
+      <li><a href="#!">Пациенты</a></li>
+      <li><a href="#!">Записи</a></li>
+      <li><a href="#!">Статистика</a></li>
+      <li><a href="#!">Финансы</a></li>
+      <li><a href="#!">Тарификация</a></li>
+  </ul>
+</nav>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
