@@ -3,8 +3,9 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>Menu Hover Line Effect  </title>
+    <title>Главная</title>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'control/css/index.css' %}">
@@ -13,20 +14,35 @@
 </head>
 
 <body>
-    <div class="sign">
-	    <span class="sign__word">MedLight</span>
-	    <span class="sign__word">clinic</span>
-    </div>
-  <nav>
-  <ul class="menu">
-      <li><a href="#!">Пациенты</a></li>
-      <li><a href="#!">Записи</a></li>
-      <li><a href="#!">Статистика</a></li>
-      <li><a href="#!">Финансы</a></li>
-      <li><a href="#!">Тарификация</a></li>
-  </ul>
-</nav>
-
-
+    {% if request.user.is_authenticated %}
+        <!-- Example single danger button -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ request.user }}
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Профиль</a>
+            <div class="dropdown-divider"></div>
+                {% url 'logout_page' as url_logout_page %}
+              <a class="nav-link ml-2" href="{{ url_logout_page }}">Выйти</a>
+            </div>
+        </div>
+        <div class="sign">
+	        <span class="sign__word">MedLight</span>
+	        <span class="sign__word">clinic</span>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="#!">Пациенты</a></li>
+                <li><a href="#!">Записи</a></li>
+                <li><a href="#!">Статистика</a></li>
+                <li><a href="#!">Финансы</a></li>
+                <li><a href="#!">Тарификация</a></li>
+            </ul>
+        </nav>
+    {% endif %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,9 +1,11 @@
 from django.http import request
+from django.conf import settings
 from .models import Patients, Records
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout
+from django.shortcuts import resolve_url
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import RecordForm, AuthUserForm
@@ -11,6 +13,8 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 
 
 class HomeListView(ListView):
@@ -89,15 +93,25 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 class MedlightLogoutView(LogoutView):
-    print("LOGOUT completed")
     next_page = reverse_lazy('login_page') #указываем страницу куда перейдем после логаута
+
+def check_status(request):
+    if request.user is not None:
+        if request.user.is_authenticated:
+            logout(request)
+        #return render(request, 'control/index.html')
+
+def logout_then_login(request):
+    """
+    Log out the user if they are logged in. Then redirect to the login page.
+    """
+    login_url = resolve_url(settings.LOGIN_URL)
+    return LogoutView.as_view(next_page=login_url)(request)
 
 class MedlightLoginView(LoginView):
     template_name = 'control/login.html'
     form_class = AuthUserForm
-    print("BEfore")
     success_url = reverse_lazy('control_home')
-    print("After")
     #def get_success_url(self):
         #self.success_url
 
