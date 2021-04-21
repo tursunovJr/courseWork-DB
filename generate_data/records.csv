@@ -1,0 +1,28 @@
+'Leroy Davis','2016-07-24','Невропатолог','Да','['consultation']','50000',3
+'Julia Mccarty','1986-01-22','Стоматолог','Нет','['braces', 'consultation']','5050000',6
+'Austin Reyes','1984-06-08','Кардиолог','Нет','['ekg']','40000',5
+'Bonnie Hill','2016-04-07','Невропатолог','Да','['eeg', 'consultation', 'reg', 'exo']','175000',1
+'Jane Cooper','1982-04-21','Стоматолог','Нет','['treatment', 'consultation', 'braces', 'implant']','8650000',4
+'Helen Pineda','2001-03-15','Кардиолог','Нет','['consultation']','50000',7
+'Ralph Bell','1983-12-09','Стоматолог','Да','['inspection']','50000',0
+'Jane Cooper','1998-10-04','Кардиолог','Да','['ekg']','40000',4
+'Micheal Griffin','1978-01-25','Кардиолог','Да','['ekg']','40000',2
+'Leroy Davis','2015-10-03','Кардиолог','Нет','['consultation']','50000',3
+'Jane Cooper','1976-03-07','Кардиолог','Нет','['consultation']','50000',4
+'Austin Reyes','1979-01-08','Стоматолог','Нет','['braces', 'inspection', 'implant']','8550000',5
+'Micheal Griffin','1997-05-02','Кардиолог','Нет','['ekg']','40000',2
+'Helen Pineda','1977-11-07','Невропатолог','Нет','['exo', 'consultation', 'reg']','135000',7
+'Micheal Griffin','2011-01-20','Стоматолог','Нет','['braces', 'consultation']','5050000',2
+'Bonnie Hill','2002-10-25','Кардиолог','Да','['consultation']','50000',1
+'Micheal Griffin','1993-01-20','Кардиолог','Да','['ekg']','40000',2
+'Leroy Davis','2013-11-20','Кардиолог','Нет','['consultation']','50000',3
+'Helen Pineda','1978-04-06','Кардиолог','Да','['ekg']','40000',7
+'Jane Cooper','1990-11-22','Невропатолог','Да','['reg', 'exo', 'eeg']','125000',4
+'Tammy Jones','1987-11-09','Кардиолог','Нет','['ekg']','40000',8
+'Julia Mccarty','1987-12-12','Стоматолог','Нет','['inspection', 'consultation']','100000',6
+'Andrew Castillo','2004-10-06','Кардиолог','Да','['consultation']','50000',9
+'Leroy Davis','1981-10-07','Стоматолог','Да','['inspection', 'braces']','5050000',3
+'Tammy Jones','1987-07-28','Невропатолог','Нет','['exo', 'consultation']','90000',8
+'Leroy Davis','2007-12-14','Стоматолог','Нет','['inspection', 'braces']','5050000',3
+'Austin Reyes','1993-10-19','Стоматолог','Нет','['implant']',3500000,5
+'Helen Pineda','2016-12-25','Стоматолог','Да','['consultation', 'implant', 'braces']',8550000,7
