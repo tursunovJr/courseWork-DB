@@ -8,20 +8,18 @@ from django.contrib.auth import logout
 from django.shortcuts import resolve_url
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import RecordForm, AuthUserForm
+from .forms import RecordForm, AuthUserForm, PatientForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+def home_page(request):
+    return render(request, 'control/index.html')
 
 
-class HomeListView(ListView):
-    #login_url = reverse_lazy('login_page')
-    model = Patients
-    template_name = 'control/index.html'
-    context_object_name = 'patients'
+
 
 class HomeDetailView(DetailView):
     model = Patients
@@ -42,6 +40,28 @@ class CustomSuccessMessageMixin:
         return super().form_valid(form)
     def get_success_url(self):
         return '%s?id=%s' % (self.success_url, self.object.id)
+
+#class PatientsListView(ListView):
+    #login_url = reverse_lazy('login_page')
+    #model = Patients
+    #template_name = 'control/patients.html'
+    #context_object_name = 'patients'
+
+class PatientCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
+    login_url = reverse_lazy('login_page')
+    model = Patients
+    template_name = 'control/patients.html'
+    form_class = PatientForm
+    success_url = reverse_lazy('patients_page')
+    success_msg = 'Пациент создан'
+    def get_context_data(self, **kwargs):
+        kwargs['list_patients'] = Patients.objects.all()
+        return super().get_context_data(**kwargs)
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
     login_url = reverse_lazy('login_page')
@@ -95,11 +115,6 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
 class MedlightLogoutView(LogoutView):
     next_page = reverse_lazy('login_page') #указываем страницу куда перейдем после логаута
 
-def check_status(request):
-    if request.user is not None:
-        if request.user.is_authenticated:
-            logout(request)
-        #return render(request, 'control/index.html')
 
 def logout_then_login(request):
     """
