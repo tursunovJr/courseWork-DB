@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Patients(models.Model):
     #id = models.AutoField(primary_key=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
     full_name = models.CharField('ФИО', max_length=50, default='')
     date = models.DateField('Дата рождения', auto_now_add=False)
     phone = models.CharField('Номер телефона', max_length=13, default='None')

@@ -1,103 +1,137 @@
 {% extends 'control/index.html' %}
 {% block content %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      {% url 'home_page' as url_home_page %}
-      <a class="nav-link" href="{{ url_home_page }}">Главная</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-              <!--<a class="nav-link" href="#">Создать</a>-->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                Добавить запись
-              </button>
-              <br><br><br>
-
-          </li>
-          {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                  {% url 'logout_page' as url_logout_page %}
-                  <a class="nav-link btn-danger ml-5" href="{{ url_logout_page }}">Выйти</a>
+    {% if update_status %}
+            <h1>Страница Редактирования</h1>
+        <p><a href="{% url 'patients_page' %}">Назад</a></p>
+        <form id="update_form" method="post" >
+              {% csrf_token %}
+              {{ form }}
+          </form>
+        <button form="update_form" type="submit" class="btn btn-primary">Обновить</button>
+    {% else %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li>
+                  {% url 'home_page' as url_home_page %}
+                    <a class="nav-link" href="{{ url_home_page }}">Главная</a>
               </li>
-            {{ request.user }}
-          {% endif %}
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Создать</a>
+                  <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Добавить запись
+                  </button>-->
+                  <!--<br><br><br>-->
+              </li>
+              {% if request.user.is_authenticated %}
+                  <li class="nav-item">
+                      {% url 'logout_page' as url_logout_page %}
+                      <a class="nav-link" href="{{ url_logout_page }}">Выйти</a>
+                  </li>
+                {{ request.user }}
+              {% endif %}
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
 
-    <br><br>,
-    {% if success %}
-          <p>Запись добавлена</p>
-    {% endif %}
-    {% if messages %}
-      <div class="alert alert-success">
-        {% for i in messages %}
-          {{ i }}
-        {% endfor %}
-      </div>
-    {% endif %}
-    <table class="table table-sm margin-top">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">№</th>
-          <th scope="col">ФИО</th>
-          <th scope="col">Дата рождения</th>
-          <th scope="col">Номер телефона</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% if list_patients %}
-        {% for el in list_patients %}
+        <br><br>,
+        {% if success %}
+              <p>Запись добавлена</p>
+        {% endif %}
+        {% if messages %}
+          <div class="alert alert-success">
+            {% for i in messages %}
+              {{ i }}
+            {% endfor %}
+          </div>
+        {% endif %}
+        <table class="table table-sm margin-top">
+          <thead class="thead-dark">
             <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ el.full_name }}</td>
-              <td>{{ el.date }}</td>
-              <td>{{ el.phone }}</td>
+              <th scope="col">№</th>
+              <th scope="col">ФИО</th>
+              <th scope="col">Дата рождения</th>
+              <th scope="col">Номер телефона</th>
+              <th scope="col">Автор</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
-            <!--<ul class="list-group.mt-4">
-                <li class="list-group-item">
-                    <span class="float-right.mr-3"> <a href="/tmp/{{ el.id }}">Посмотреть все записи</a></span>
-                    <span class="float-right.mr-4"> <a href="#">Скачать</a></span>
-                    <span class="float-right.mr-5"> <a href="#">Удалить</a></span>
-                </li>
-            </ul>-->
-        {% endfor %}
-      {% else %}
-        <p>Нет данных</p>
-      {% endif %}
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+          {% if list_patients %}
+            {% for el in list_patients %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ el.full_name }}</td>
+                  <td>{{ el.date }}</td>
+                  <td>{{ el.phone }}</td>
+                  <td>{{ el.author }}</td>
+                  <td>
+                    {% if request.user == el.author %}
+                        <a href="{% url 'patients_update_page' el.id %}">Редактировать</a>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if request.user == el.author %}
+                        <form id="delete_form{{ el.id }}" action="{% url 'patients_delete_page' el.id %}" method="post">{% csrf_token %}</form>
+                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()">Удалить</a>
+                        <script>
+                            function delete_record{{ el.id }}(){
+                                if (confirm("Вы уверены?")){
+                                    document.getElementById('delete_form{{ el.id }}').submit()
+                                }
+                            }
+                        </script>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
+                  </td>
+                </tr>
+                <!--<ul class="list-group.mt-4">
+                    <li class="list-group-item">
+                        <span class="float-right.mr-3"> <a href="/tmp/{{ el.id }}">Посмотреть все записи</a></span>
+                        <span class="float-right.mr-4"> <a href="#">Скачать</a></span>
+                        <span class="float-right.mr-5"> <a href="#">Удалить</a></span>
+                    </li>
+                </ul>-->
+            {% endfor %}
+          {% else %}
+            <p>Нет данных</p>
+          {% endif %}
+          </tbody>
+        </table>
 
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Создание</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <form id="add_form" method="post" >
-                  {% csrf_token %}
-                  {{ form }}
-              </form>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Создание</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <form id="add_form" method="post" >
+                      {% csrf_token %}
+                      {{ form }}
+                  </form>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+    {% endif %}
 
 
 
