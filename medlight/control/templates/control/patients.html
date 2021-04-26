@@ -38,7 +38,7 @@
           </div>
         </nav>
 
-        <br><br>,
+        <br><br>
         {% if success %}
               <p>Запись добавлена</p>
         {% endif %}
@@ -72,15 +72,17 @@
                   <td>{{ el.author }}</td>
                   <td>
                     {% if request.user == el.author %}
-                        <a href="{% url 'patients_update_page' el.id %}">Редактировать</a>
+                        <a href="{% url 'patients_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
+                        <!--<a href="{% url 'patients_update_page' el.id %}">Редактировать</a>-->
                     {% else%}
                         Нет доступа
                     {% endif %}
                   </td>
                   <td>
                     {% if request.user == el.author %}
+
                         <form id="delete_form{{ el.id }}" action="{% url 'patients_delete_page' el.id %}" method="post">{% csrf_token %}</form>
-                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()">Удалить</a>
+                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
                         <script>
                             function delete_record{{ el.id }}(){
                                 if (confirm("Вы уверены?")){
@@ -132,7 +134,5 @@
           </div>
         </div>
     {% endif %}
-
-
 
 {% endblock %}
