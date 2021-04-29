@@ -8,6 +8,21 @@
               {{ form }}
           </form>
         <button form="update_form" type="submit" class="btn btn-primary">Обновить</button>
+    {% elif create_record %}
+        <h1>It is a test</h1>
+        <div class="modal-body">
+          <form action="" id="add_form" method="post" >
+              {% csrf_token %}
+              {{ form }}
+          </form>
+        </div>
+        <div class="modal-footer">
+            {% url 'patients_page' as url_patients_page %}
+            <a href="{{ url_patients_page }}">
+                <button type="button" class="btn btn-secondary">Закрыть</button>
+            </a>
+          <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
     {% else %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -59,6 +74,7 @@
               <th scope="col">Автор</th>
               <th scope="col"></th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -82,6 +98,7 @@
                     {% if request.user == el.author %}
 
                         <form id="delete_form{{ el.id }}" action="{% url 'patients_delete_page' el.id %}" method="post">{% csrf_token %}</form>
+
                         <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
                         <script>
                             function delete_record{{ el.id }}(){
@@ -93,6 +110,9 @@
                     {% else%}
                         Нет доступа
                     {% endif %}
+                  </td>
+                  <td>
+                      <a href="{% url 'record_create_page' el.id %}"><i class="fas fa-plus-circle"></i></a>
                   </td>
                 </tr>
                 <!--<ul class="list-group.mt-4">

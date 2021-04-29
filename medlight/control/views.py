@@ -3,9 +3,9 @@ from django.conf import settings
 from .models import Patients, Records
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth import logout
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url, get_object_or_404
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import RecordForm, AuthUserForm, PatientForm
@@ -100,18 +100,34 @@ class PatientDeleteView(LoginRequiredMixin, DeleteView):
 class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
     login_url = reverse_lazy('login_page')
     model = Records
-    template_name = 'control/edit_page.html'
+    template_name = 'control/patients.html'
     form_class = RecordForm
-    success_url = reverse_lazy('edit_page')
+    success_url = reverse_lazy('patients_page')
     success_msg = 'Запись создана'
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            print(self.get_object())
+            #return self.form_valid(form)
+            return HttpResponse('YES')
+        else:
+            return HttpResponse('NOO')
+
+
     def get_context_data(self, **kwargs):
-        kwargs['list_records'] = Records.objects.all().order_by('-register_date')
+        #kwargs['list_records'] = Records.objects.all().order_by('-register_date')
+        #self.patient = get_object_or_404(Patients, id=self.kwargs[self.patient.id])
+        kwargs['create_record'] = True
+        #kwargs['patient'] = self.patient
         return super().get_context_data(**kwargs)
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.author = self.request.user
-        self.object.save()
-        return super().form_valid(form)
+    #def form_valid(self, form):
+        ##self.patient = get_object_or_404(Patients, id=self.kwargs[self.patient.id])
+        ##form.instance.patient = Patients.objects.get(id=self.kwargs['pk'])
+        #self.object = form.save(commit=False)
+        #self.object.patient = self.get_object()
+        #self.object.author = self.request.user
+        #self.object.save()
+        #return super().form_valid(form)
 
 class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
     model = Records
