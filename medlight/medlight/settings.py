@@ -121,3 +121,5 @@ LOGIN_URL = '/login'
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'

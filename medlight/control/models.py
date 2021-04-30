@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Patients(models.Model):
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
     full_name = models.CharField('ФИО', max_length=50, default='')
     date = models.DateField('Дата рождения', auto_now_add=False)
@@ -17,7 +17,7 @@ class Patients(models.Model):
         verbose_name_plural = 'Пациенты'
 
 class Doctors(models.Model):
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     full_name = models.CharField('ФИО', max_length=50, default='None')
     speciality = models.CharField('Специальность', max_length=50, default='')
     qualification = models.CharField('Квалификация', max_length=50, default='')
@@ -31,9 +31,9 @@ class Doctors(models.Model):
         verbose_name_plural = 'Врачи'
 
 class Records(models.Model):
-    id = models.AutoField(primary_key=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
+    #id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE, blank=True, null=True, related_name='records_patients')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
     #full_name = models.CharField('ФИО', max_length=50, default='')
     register_date = models.DateTimeField('Время регистрации', auto_now=True)
     doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
@@ -42,8 +42,8 @@ class Records(models.Model):
     total_sum = models.IntegerField('Итоговая сумма')
     discharge = models.TextField('Выписка', default='')
 
-    def __str__(self):
-        return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)
+    #def __str__(self):
+        #return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)
 
     class Meta:
         verbose_name = 'Запись'

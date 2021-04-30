@@ -4,10 +4,10 @@ from .models import Patients, Records
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse
-from django.contrib.auth import logout
-from django.shortcuts import resolve_url, get_object_or_404
+from django.shortcuts import resolve_url
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic.edit import FormMixin
 from .forms import RecordForm, AuthUserForm, PatientForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
@@ -26,10 +26,10 @@ def home_page(request):
     #template_name = 'control/tmp.html'
     #context_object_name = 'get_patient'
 
-class RecordsDetailView(DetailView):
-    model = Records
-    template_name = 'control/detail.html'
-    context_object_name = 'get_record'
+#class RecordsDetailView(DetailView):
+    #model = Records
+    #template_name = 'control/detail.html'
+    #context_object_name = 'get_record'
 
 class CustomSuccessMessageMixin:
     @property
@@ -97,29 +97,49 @@ class PatientDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
-    login_url = reverse_lazy('login_page')
-    model = Records
+class PatientDetailView(FormMixin, CustomSuccessMessageMixin, DetailView):
+    model = Patients
     template_name = 'control/patients.html'
+    context_object_name = 'get_patient'
     form_class = RecordForm
-    success_url = reverse_lazy('patients_page')
     success_msg = 'Запись создана'
+    success_url = reverse_lazy('patients_page')
+
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            print(self.get_object())
-            #return self.form_valid(form)
-            return HttpResponse('YES')
+            return self.form_valid(form)
         else:
-            return HttpResponse('NOO')
+            return self.form_invalid(form)
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.patient = self.get_object()
+        self.object.author = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
+        kwargs['create_record'] = True
+        return super().get_context_data(**kwargs)
+
+
+
+#class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
+    #login_url = reverse_lazy('login_page')
+    #model = Patients
+    #template_name = 'control/patients.html'
+    #template_name = 'control/new_record.html'
+    #form_class = RecordForm
+    #success_url = reverse_lazy('patients_page')
+    #success_msg = 'Запись создана'
+
+    #def get_context_data(self, **kwargs):
         #kwargs['list_records'] = Records.objects.all().order_by('-register_date')
         #self.patient = get_object_or_404(Patients, id=self.kwargs[self.patient.id])
-        kwargs['create_record'] = True
-        #kwargs['patient'] = self.patient
-        return super().get_context_data(**kwargs)
+        #kwargs['create_record'] = Records.objects.all()
+        #kwargs['patient'] = Patients.objects.all()
+        #return super().get_context_data(**kwargs)
     #def form_valid(self, form):
         ##self.patient = get_object_or_404(Patients, id=self.kwargs[self.patient.id])
         ##form.instance.patient = Patients.objects.get(id=self.kwargs['pk'])
@@ -128,6 +148,21 @@ class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView
         #self.object.author = self.request.user
         #self.object.save()
         #return super().form_valid(form)
+
+    #def get_form_kwargs(self, **kwargs):
+        #kwargs = super().get_form_kwargs()
+        #return kwargs
+
+    #def post(self, request, *args, **kwargs):
+        #form = self.get_form()
+        #if form.is_valid():
+            #print(self.get_object())
+            #return self.form_valid(form)
+            #return HttpResponse('YES')
+        #else:
+            #return HttpResponse('NOO')
+
+
 
 class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
     model = Records
