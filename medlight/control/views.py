@@ -123,6 +123,53 @@ class PatientDetailView(FormMixin, CustomSuccessMessageMixin, DetailView):
         kwargs['create_record'] = True
         return super().get_context_data(**kwargs)
 
+class RecordsListView(ListView):
+    model = Records
+    template_name = 'control/records.html'
+    context_object_name = 'get_records'
+
+class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
+    model = Records
+    template_name = 'control/records.html'
+    form_class = RecordForm
+    success_url = reverse_lazy('records_page')
+    success_msg = 'Запись обновлена'
+    def get_context_data(self, **kwargs):
+        kwargs['update_record_status'] = True
+        return super().get_context_data(**kwargs)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        #print(kwargs['instance'].author)
+        #print(self.request.user)
+        if self.request.user != kwargs['instance'].author:
+            return self.handle_no_permission()
+        return kwargs
+
+class RecordDeleteView(LoginRequiredMixin, DeleteView):
+    model = Records
+    template_name = 'control/records.html'
+    success_url = reverse_lazy('records_page')
+    success_msg = 'Запись удалена'
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_msg)
+        return super().post(request)
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.user != self.object.author:
+            return self.handle_no_permission()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+class RecordDetailView(FormMixin, DetailView):
+    model = Records
+    template_name = 'control/records.html'
+    form_class = RecordForm
+    context_object_name = 'get_record'
+
+    def get_context_data(self, **kwargs):
+        kwargs['show_record_status'] = True
+        return super().get_context_data(**kwargs)
 
 
 #class RecordCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
@@ -164,38 +211,7 @@ class PatientDetailView(FormMixin, CustomSuccessMessageMixin, DetailView):
 
 
 
-class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
-    model = Records
-    template_name = 'control/edit_page.html'
-    form_class = RecordForm
-    success_url = reverse_lazy('edit_page')
-    success_msg = 'Запись обновлена'
-    def get_context_data(self, **kwargs):
-        kwargs['update_status'] = True
-        return super().get_context_data(**kwargs)
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        #print(kwargs['instance'].author)
-        #print(self.request.user)
-        if self.request.user != kwargs['instance'].author:
-            return self.handle_no_permission()
-        return kwargs
 
-class RecordDeleteView(LoginRequiredMixin, DeleteView):
-    model = Records
-    template_name = 'control/edit_page.html'
-    success_url = reverse_lazy('edit_page')
-    success_msg = 'Запись удалена'
-    def post(self, request, *args, **kwargs):
-        messages.success(self.request, self.success_msg)
-        return super().post(request)
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.request.user != self.object.author:
-            return self.handle_no_permission()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
 
 class MedlightLogoutView(LogoutView):
     next_page = reverse_lazy('login_page') #указываем страницу куда перейдем после логаута
