@@ -42,16 +42,31 @@ class Records(models.Model):
     total_sum = models.IntegerField('Итоговая сумма')
     discharge = models.TextField('Выписка', default='')
 
-    #def __str__(self):
-        #return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)
+    def __str__(self):
+        return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)
 
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
 
 
+class ServicesList(models.Model):
+    #doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
+    name = models.CharField('Услуга', max_length=40, default='')
+    price = models.IntegerField('Цена')
+
+    def __str__(self):
+        return '%s %d' %(self.name, self.price)
+
+    class Meta:
+        verbose_name = 'Прайслист'
+        verbose_name_plural = 'Прайслист'
+
+
 class Treaments(models.Model):
-    speciality = models.CharField('Специальность', max_length=50, default='')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', blank=True, null=True)
+    doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE, blank=True, null=True)
     disease = models.CharField('Болезнь', max_length=30, default='')
     discharge = models.TextField('Выписка', default='')
 
@@ -62,16 +77,8 @@ class Treaments(models.Model):
         verbose_name = 'Стандартное лечение'
         verbose_name_plural = 'Стандартные лечения'
 
-class Pricelist(models.Model):
-    service = models.CharField('Услуга', max_length=20, default='')
-    price = models.IntegerField('Цена')
 
-    def __str__(self):
-        return self.service
 
-    class Meta:
-        verbose_name = 'Прайслист'
-        verbose_name_plural = 'Прайслист'
 
 class Users(models.Model):
     role = models.CharField('Роль', max_length=20, default='')

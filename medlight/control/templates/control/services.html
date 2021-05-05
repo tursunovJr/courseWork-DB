@@ -1,0 +1,155 @@
+{% extends 'control/index.html' %}
+{% block content %}
+
+    {% if update_status %}
+        <h1>Страница Редактирования</h1>
+        <div class="modal-body">
+          <form id="update_form" method="post" >
+              {% csrf_token %}
+              {{ form }}
+          </form>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'patients_page' %}">
+                <button type="button" class="btn btn-secondary">Закрыть</button>
+            </a>
+          <button form="update_form" type="submit" class="btn btn-primary">Обновить</button>
+        </div>
+    {% else %}
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li>
+                  {% url 'home_page' as url_home_page %}
+                    <a class="nav-link" href="{{ url_home_page }}">Главная</a>
+              </li>
+              <li class="nav-item">
+                  {% if request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
+                      <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Создать</a>
+                  {% else%}
+                      <a class="nav-link" href="javascript:void()" onclick="access()">Создать</a>
+                      <script>
+                        function access(){
+                           window.alert(
+                              "У Вас не достаточно прав для создания"
+                          )
+                        }
+                      </script>
+                  {% endif %}
+
+              </li>
+              {% if request.user.is_authenticated %}
+                  <li class="nav-item">
+                      {% url 'logout_page' as url_logout_page %}
+                      <a class="nav-link" href="{{ url_logout_page }}">Выйти</a>
+                  </li>
+                {{ request.user }}
+              {% endif %}
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
+        <br><br>
+        {% if messages %}
+          <div class="alert alert-success">
+            {% for i in messages %}
+              {{ i }}
+            {% endfor %}
+          </div>
+        {% endif %}
+        <table class="table table-sm margin-top">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">№</th>
+              <th scope="col">Услуга</th>
+              <th scope="col">Цена</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if list_services %}
+            {% for el in list_services %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ el.name }}</td>
+                  <td>{{ el.price }}</td>
+                  <td>
+                    {% if request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
+                        <a href="{% url 'service_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
+
+                        <form id="delete_form{{ el.id }}" action="{% url 'service_delete_page' el.id %}" method="post">{% csrf_token %}</form>
+
+                        <a href="javascript:void()" onclick="delete_service{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
+                        <script>
+                            function delete_service{{ el.id }}(){
+                                if (confirm("Вы уверены?")){
+                                    document.getElementById('delete_form{{ el.id }}').submit()
+                                }
+                            }
+                        </script>
+                    {% else%}
+                        Нет доступа
+                    {% endif %}
+                  </td>
+                </tr>
+            {% endfor %}
+          {% else %}
+            <p>Нет данных</p>
+          {% endif %}
+          </tbody>
+        </table>
+
+
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Создание услуги</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="add_form" class="form" method="post" >
+                          {% csrf_token %}
+                          <!--<h3 class="text-center text-info">Создание услуги</h3>-->
+                            <div class="form-group">
+                                <label for="name" class="text-info">Услуга:</label><br>
+                                <input id="name" type="text" name="name"  class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="text-info">Цена:</label><br>
+                                <input id="price" type="text" name="price"  class="form-control" required autocomplete="new-password">
+                            </div>
+                            <div class="form-group">
+                                <br>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Сохранить">
+                            </div>
+
+                      </form>
+                  </div>
+                  <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
+                  </div>-->
+                </div>
+              </div>
+          </div>
+
+
+
+
+    {% endif %}
+{% endblock %}

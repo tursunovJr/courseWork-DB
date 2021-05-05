@@ -14,6 +14,13 @@ urlpatterns = [
     path('update-record/<int:pk>', views.RecordUpdateView.as_view(), name='record_update_page'),
     path('delete-record/<int:pk>', views.RecordDeleteView.as_view(), name='record_delete_page'),
     path('record/<int:pk>', views.RecordDetailView.as_view(), name='record_detail_page'),
+    path('home/services', views.ServicesCreateView.as_view(), name='services_page'),
+    path('update-service/<int:pk>', views.ServiceUpdateView.as_view(), name='service_update_page'),
+    path('delete-service/<int:pk>', views.ServiceDeleteView.as_view(), name='service_delete_page'),
+    path('home/treatments', views.TreatmentCreateView.as_view(), name='treatments_page'),
+    path('update-service/<int:pk>', views.TreatmentUpdateView.as_view(), name='treatments_update_page'),
+    path('delete-service/<int:pk>', views.TreatmentDeleteView.as_view(), name='treatments_delete_page'),
+    path('treatment/<int:pk>', views.TreatmentDetailView.as_view(), name='treatment_detail_page'),
     #path('create-record/<int:pk>', views.RecordCreateView.as_view(), name='record_create_page'),
 
     #path('tmp/<int:pk>', views.HomeDetailView.as_view()),

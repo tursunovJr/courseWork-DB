@@ -44,8 +44,13 @@
                     <a {% if url_records_page == request.path %} active {% endif %} href="{{ url_records_page }}">Записи</a>
                 </li>
                 <li><a href="#!">Статистика</a></li>
-                <li><a href="#!">Финансы</a></li>
-                <li><a href="#!">Тарификация</a></li>
+                <li>
+                    {% url 'treatments_page' as url_treatments_page %}
+                    <a {% if url_treatments_page == request.path %} active {% endif %} href="{{ url_treatments_page }}">Стандартные лечения</a></li>
+                <li>
+                    {% url 'services_page' as url_services_page %}
+                    <a {% if url_services_page == request.path %} active {% endif %} href="{{ url_services_page }}">Тарификация</a>
+                </li>
             </ul>
         </nav>
         {% endblock %}
