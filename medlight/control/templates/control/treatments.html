@@ -1,19 +1,30 @@
 {% extends 'control/index.html' %}
 {% block content %}
-
     {% if update_status %}
         <h1>Страница Редактирования</h1>
         <div class="modal-body">
           <form id="update_form" method="post" >
               {% csrf_token %}
-              {{ form }}
+              <div class="form-group">
+                  <label for="name" class="text-info">Врач:</label><br>
+                  {{ form.doctor }}
+              </div>
+              <div class="form-group">
+                  <label for="name" class="text-info">Диагноз:</label><br>
+                  {{ form.disease }}
+              </div>
+              <div class="form-group">
+                  <label for="name" class="text-info">Лечение:</label><br>
+                  {{ form.discharge }}
+              </div>
+              <div class="form-group">
+                  <br>
+                  <a href="{% url 'treatments_page' %}">
+                    <button type="button" class="btn btn-secondary">Назад</button>
+                  </a>
+                  <input type="submit" name="submit" class="btn btn-info btn-md" value="Сохранить">
+              </div>
           </form>
-        </div>
-        <div class="modal-footer">
-            <a href="{% url 'patients_page' %}">
-                <button type="button" class="btn btn-secondary">Закрыть</button>
-            </a>
-          <button form="update_form" type="submit" class="btn btn-primary">Обновить</button>
         </div>
     {% elif show_treatment_status %}
         <h1>Страница просмотра стандартного лечения</h1>
@@ -24,123 +35,124 @@
                 <p>Болезнь: {{ get_treatment.disease }}</p>
                 <p>Лечение: {{ get_treatment.discharge }}</p>
             </div>
+            <div class="form-group">
+                  <br>
+                  <a href="{% url 'treatments_page' %}">
+                    <button type="button" class="btn btn-secondary">Назад</button>
+                  </a>
+              </div>
     {% else %}
           <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li>
                   {% url 'home_page' as url_home_page %}
-                    <a class="nav-link" href="{{ url_home_page }}">Главная</a>
+                  <a class="nav-link" href="{{ url_home_page }}">Главная</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Создать</a>
               </li>
-              {% if request.user.is_authenticated %}
-                  <li class="nav-item">
-                      {% url 'logout_page' as url_logout_page %}
-                      <a class="nav-link" href="{{ url_logout_page }}">Выйти</a>
-                  </li>
-                {{ request.user }}
-              {% endif %}
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'treatments_page' %}" method="get">
+                <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input type="submit" name="submit" class="btn btn-outline-success my-2 my-sm-0" value="Найти">
             </form>
           </div>
         </nav>
-
         <br><br>
-        {% if messages %}
-          <div class="alert alert-success">
-            {% for i in messages %}
-              {{ i }}
-            {% endfor %}
-          </div>
-        {% endif %}
-        <table class="table table-sm margin-top">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">№</th>
-              <th scope="col">Врач</th>
-              <th scope="col">Специальность</th>
-              <th scope="col">Болезнь</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-          {% if list_treatments %}
-            {% for el in list_treatments %}
+
+          {% if object_list %}
+            <table class="table table-sm margin-top">
+              <thead class="thead-dark">
                 <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <td>{{ el.doctor.full_name }}</td>
-                  <td>{{ el.doctor.speciality }}</td>
-                  <td>{{ el.disease }}</td>
-                  <td>
-                      <a href="{% url 'treatment_detail_page' el.id %}"><i class="fas fa-eye"></i></a>
-                  </td>
-                  <td>
-                    {% if request.user == el.author %}
-                        <a href="{% url 'treatments_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
-                        <!--<a href="{% url 'patients_update_page' el.id %}">Редактировать</a>-->
-                    {% else%}
-                        Нет доступа
-                    {% endif %}
-                  </td>
-                  <td>
-                    {% if request.user == el.author %}
-
-                        <form id="delete_form{{ el.id }}" action="{% url 'treatments_delete_page' el.id %}" method="post">{% csrf_token %}</form>
-
-                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
-                        <script>
-                            function delete_record{{ el.id }}(){
-                                if (confirm("Вы уверены?")){
-                                    document.getElementById('delete_form{{ el.id }}').submit()
-                                }
-                            }
-                        </script>
-                    {% else%}
-                        Нет доступа
-                    {% endif %}
-                  </td>
+                  <th scope="col">№</th>
+                  <th scope="col">Врач</th>
+                  <th scope="col">Специальность</th>
+                  <th scope="col">Болезнь</th>
+                  <th scope="col">Просмотр</th>
+                  <th scope="col">Редактирование</th>
+                  <th scope="col">Удаление</th>
                 </tr>
-            {% endfor %}
+              </thead>
+              <tbody>
+                {% for el in object_list %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ el.doctor.full_name }}</td>
+                      <td>{{ el.doctor.speciality }}</td>
+                      <td>{{ el.disease }}</td>
+                      <td>
+                          <a href="{% url 'treatment_detail_page' el.id %}"><i class="fas fa-eye"></i></a>
+                      </td>
+                      <td>
+                        {% if request.user == el.author %}
+                            <a href="{% url 'treatments_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
+                        {% else%}
+                            Нет доступа
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if request.user == el.author %}
+                            <form id="delete_form{{ el.id }}" action="{% url 'treatments_delete_page' el.id %}" method="post">{% csrf_token %}</form>
+                            <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
+                            <script>
+                                function delete_record{{ el.id }}(){
+                                    if (confirm("Вы уверены?")){
+                                        document.getElementById('delete_form{{ el.id }}').submit()
+                                    }
+                                }
+                            </script>
+                        {% else%}
+                            Нет доступа
+                        {% endif %}
+                      </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           {% else %}
-            <p>Нет данных</p>
+            <tr>
+                <h3>Ничего не найдено :(</h3>
+                <a href="{% url 'treatments_page' %}">
+                    <button type="button" class="btn btn-secondary">Назад</button>
+                </a>
+            </tr>
           {% endif %}
-          </tbody>
-        </table>
-
-
-          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Создание услуги</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                      <form id="add_form" class="form" method="post" >
-                          {% csrf_token %}
-                          {{ form }}
-
-                      </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button form="add_form" type="submit" class="btn btn-primary">Сохранить</button>
-                  </div>
-                </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Новое лечение</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
+              <div class="modal-body">
+                  <form id="add_form" class="form" method="post" >
+                      {% csrf_token %}
+                      <div class="form-group">
+                          <label for="name" class="text-info">Врач:</label><br>
+                          {{ form.doctor }}
+                      </div>
+                      <div class="form-group">
+                          <label for="name" class="text-info">Диагноз:</label><br>
+                          {{ form.disease }}
+                      </div>
+                      <div class="form-group">
+                          <label for="name" class="text-info">Лечение:</label><br>
+                          {{ form.discharge }}
+                      </div>
+                      <div class="form-group">
+                          <br>
+                          <a href="{% url 'treatments_page' %}">
+                            <button type="button" class="btn btn-secondary">Закрыть</button>
+                          </a>
+                          <input type="submit" name="submit" class="btn btn-info btn-md" value="Сохранить">
+                      </div>
+                  </form>
+              </div>
+            </div>
           </div>
-
-
-
-
+        </div>
     {% endif %}
 {% endblock %}

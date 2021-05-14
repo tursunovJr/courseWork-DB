@@ -17,7 +17,7 @@ class RecordForm(forms.ModelForm):
     class Meta:
         model = Records
         #fields = ('patient', 'doctor', 'payment_status', 'used_services', 'total_sum', 'discharge')
-        fields = ('doctor', 'payment_status', 'used_services', 'total_sum', 'discharge')
+        fields = ('doctor', 'payment_status', 'used_services', 'total_sum', 'discharge', 'disease')
         #labels = {'doctor': 'name', }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

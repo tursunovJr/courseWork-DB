@@ -40,7 +40,8 @@ class Records(models.Model):
     payment_status = models.BooleanField('Оплатил')
     used_services = models.CharField('Использованные услуги', max_length=70, default='')
     total_sum = models.IntegerField('Итоговая сумма')
-    discharge = models.TextField('Выписка', default='')
+    disease = models.TextField('Диагноз', default='')
+    discharge = models.TextField('Лечение', default='')
 
     def __str__(self):
         return '%s %s %s %s %d' %(self.patient.full_name, self.register_date, self.doctor.full_name, self.payment_status, self.total_sum)

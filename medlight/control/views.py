@@ -1,4 +1,5 @@
 from django.http import request
+from django.db.models import Q
 from django.conf import settings
 from .models import Patients, Records, ServicesList, Treaments
 from django.urls import reverse_lazy
@@ -47,16 +48,25 @@ class CustomSuccessMessageMixin:
     #template_name = 'control/patients.html'
     #context_object_name = 'patients'
 
-class PatientCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
+class PatientCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView, ListView):
     login_url = reverse_lazy('login_page')
     model = Patients
     template_name = 'control/patients.html'
     form_class = PatientForm
     success_url = reverse_lazy('patients_page')
-    success_msg = 'Пациент создан'
-    def get_context_data(self, **kwargs):
-        kwargs['list_patients'] = Patients.objects.all()
-        return super().get_context_data(**kwargs)
+    #success_msg = 'Пациент создан'
+    #def get_context_data(self, **kwargs):
+        #kwargs['list_patients'] = Patients.objects.all()
+        #return super().get_context_data(**kwargs)
+    def get_queryset(self):  # новый
+        query = self.request.GET.get('q')
+        if query is None:
+            object_list = Patients.objects.all()
+        else:
+            object_list = Patients.objects.filter(
+                Q(full_name__icontains=query) | Q(date__icontains=query) | Q(phone__icontains=query)
+            )
+        return object_list
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
@@ -68,7 +78,7 @@ class PatientUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateVie
     template_name = 'control/patients.html'
     form_class = PatientForm
     success_url = reverse_lazy('patients_page')
-    success_msg = 'Запись обновлена'
+    #success_msg = 'Запись обновлена'
     def get_context_data(self, **kwargs):
         kwargs['update_status'] = True
         return super().get_context_data(**kwargs)
@@ -102,7 +112,7 @@ class PatientDetailView(FormMixin, CustomSuccessMessageMixin, DetailView):
     template_name = 'control/patients.html'
     context_object_name = 'get_patient'
     form_class = RecordForm
-    success_msg = 'Запись создана'
+    #success_msg = 'Запись создана'
     success_url = reverse_lazy('patients_page')
 
     def post(self, request, *args, **kwargs):
@@ -128,7 +138,19 @@ class PatientDetailView(FormMixin, CustomSuccessMessageMixin, DetailView):
 class RecordsListView(ListView):
     model = Records
     template_name = 'control/records.html'
-    context_object_name = 'get_records'
+    #context_object_name = 'get_records'
+    def get_queryset(self):  # новый
+        query = self.request.GET.get('q')
+        if query is None:
+            object_list = Records.objects.all()
+        else:
+            object_list = Records.objects.filter(
+                Q(patient__full_name__icontains=query) | Q(patient__date__icontains=query) | Q(patient__phone__icontains=query)
+                    | Q(register_date__icontains=query) | Q(doctor__full_name__icontains=query) | Q(doctor__speciality__icontains=query)
+                    | Q(payment_status__icontains=query) | Q(used_services__icontains=query) | Q(total_sum__icontains=query)
+                    | Q(discharge__icontains=query)
+            )
+        return object_list
 
 class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
     model = Records
@@ -173,22 +195,45 @@ class RecordDetailView(FormMixin, DetailView):
         kwargs['show_record_status'] = True
         return super().get_context_data(**kwargs)
 
-class ServicesCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
+class ServicesCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView, ListView):
     login_url = reverse_lazy('login_page')
     model = ServicesList
     template_name = 'control/services.html'
     form_class = ServiceForm
     success_url = reverse_lazy('services_page')
     #success_msg = 'Пациент создан'
-    def get_context_data(self, **kwargs):
-        kwargs['list_services'] = ServicesList.objects.all()
-        #kwargs['create_record'] = True
-        return super().get_context_data(**kwargs)
+    #def get_context_data(self, **kwargs):
+        #kwargs['list_services'] = ServicesList.objects.all()
+        #kwargs['create_status'] = True
+        #return super().get_context_data(**kwargs)
+    def get_queryset(self):  # новый
+        query = self.request.GET.get('q')
+        if query is None:
+            object_list = ServicesList.objects.all()
+        else:
+            object_list = ServicesList.objects.filter(
+                Q(name__icontains=query) | Q(price__icontains=query)
+            )
+        return object_list
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+#class ServicesListView(ListView):
+    #model = ServicesList
+    #template_name = 'control/services.html'
+    #queryset = ServicesList.objects.filter(price__icontains='150000')
+    #def get_queryset(self):  # новый
+        #query = self.request.GET.get('q')
+        #if query is None:
+            #object_list = ServicesList.objects.all()
+        #else:
+            #object_list = ServicesList.objects.filter(
+                #Q(name__icontains=query) | Q(price__icontains=query)
+            #)
+        #return object_list
 
 
 class ServiceUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
@@ -226,17 +271,27 @@ class ServiceDeleteView(LoginRequiredMixin, DeleteView):
 
 
 
-class TreatmentCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView):
+class TreatmentCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateView, ListView):
     login_url = reverse_lazy('login_page')
     model = Treaments
     template_name = 'control/treatments.html'
     form_class = TreatmentForm
     success_url = reverse_lazy('treatments_page')
     #success_msg = 'Пациент создан'
-    def get_context_data(self, **kwargs):
-        kwargs['list_treatments'] = Treaments.objects.all()
+    #def get_context_data(self, **kwargs):
+        #kwargs['list_treatments'] = Treaments.objects.all()
         #kwargs['create_record'] = True
-        return super().get_context_data(**kwargs)
+        #return super().get_context_data(**kwargs)
+    def get_queryset(self):  # новый
+        query = self.request.GET.get('q')
+        if query is None:
+            object_list = Treaments.objects.all()
+        else:
+            object_list = Treaments.objects.filter(
+                Q(doctor__speciality__icontains=query) | Q(disease__icontains=query) | Q(discharge__icontains=query)
+                    | Q(doctor__full_name__icontains=query)
+            )
+        return object_list
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user

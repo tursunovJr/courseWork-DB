@@ -1,67 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <title>Главная</title>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Главная</title>
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'control/css/style.css' %}">
+    </head>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'control/css/index.css' %}">
-
-
-</head>
-
-<body>
-    {% if request.user.is_authenticated %}
+    <body>
+      {% if request.user.is_authenticated %}
         {% block content %}
-        <!-- Example single danger button -->
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ request.user }}
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Профиль</a>
-            <div class="dropdown-divider"></div>
-                {% url 'logout_page' as url_logout_page %}
-              <a class="nav-link ml-2" href="{{ url_logout_page }}">Выйти</a>
-            </div>
-        </div>
-        <div class="sign">
-	        <span class="sign__word">MedLight</span>
-	        <span class="sign__word">clinic</span>
-        </div>
-        <nav>
-            <ul class="menu">
-                <li>
-                    {% url 'patients_page' as url_patients_page %}
-                    <a  {% if url_patients_page == request.path %} active {% endif %} href="{{ url_patients_page }}">Пациенты</a>
-                </li>
-                <li>
-                    {% url 'records_page' as url_records_page %}
-                    <a {% if url_records_page == request.path %} active {% endif %} href="{{ url_records_page }}">Записи</a>
-                </li>
-                <li><a href="#!">Статистика</a></li>
-                <li>
-                    {% url 'treatments_page' as url_treatments_page %}
-                    <a {% if url_treatments_page == request.path %} active {% endif %} href="{{ url_treatments_page }}">Стандартные лечения</a></li>
-                <li>
-                    {% url 'services_page' as url_services_page %}
-                    <a {% if url_services_page == request.path %} active {% endif %} href="{{ url_services_page }}">Тарификация</a>
-                </li>
-            </ul>
-        </nav>
+
+            <content>
+                  <section class="msg">
+                    <i class="fas fa-user-md" style="margin-top: -150px"></i>
+                      <p style="font-size: 30px; margin-bottom: 90px; font-family: 'Roboto Light'">{{ request.user }}</p>
+                    <div class="sign">
+                        <span class="sign__word">MedLight</span>
+                        <span class="sign__word">clinic</span>
+                    </div>
+                  </section>
+                  <input id="hamburger" class="hamburger" type="checkbox"/>
+                  <label class="hamburger" for="hamburger">
+                    <i></i>
+                    <text>
+                      <close>close</close>
+                      <open>menu</open>
+                    </text>
+                  </label>
+                  <section class="drawer-list">
+                    <ul>
+                      <li>
+                        {% url 'patients_page' as url_patients_page %}
+                        <a {% if url_patients_page == request.path %} active {% endif %} href="{{ url_patients_page }}">Пациенты</a>
+                      </li>
+                      <li>
+                        {% url 'records_page' as url_records_page %}
+                        <a {% if url_records_page == request.path %} active {% endif %} href="{{ url_records_page }}">Записи</a>
+                      </li>
+                      <li>
+                          <a href="#!">Статистика</a>
+                      </li>
+                      <li>
+                        {% url 'treatments_page' as url_treatments_page %}
+                        <a {% if url_treatments_page == request.path %} active {% endif %} href="{{ url_treatments_page }}">Стандартные лечения</a></li>
+                      <li>
+                        {% url 'services_page' as url_services_page %}
+                        <a {% if url_services_page == request.path %} active {% endif %} href="{{ url_services_page }}">Тарификация</a>
+                      </li>
+                      <li>
+                         {% url 'logout_page' as url_logout_page %}
+                         <a href="{{ url_logout_page }}">Выйти</a>
+                      </li>
+                    </ul>
+                  </section>
+          </content>
         {% endblock %}
-    {% else %}
+      {% else %}
         <h1>Ой ты не туда залез! Иди лучше войди как воспитанный человек</h1>
         {% url 'login_page' as url_login_page %}
         <a class="nav-link {% if url_login_page == request.path %} active {% endif %}" href="{{ url_login_page}}">Авторизация</a>
-    {% endif %}
+      {% endif %}
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
 </html>

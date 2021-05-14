@@ -27,7 +27,8 @@
                 <p>Номер врача: {{ get_record.doctor.phone }}</p>
                 <br><br>
                 <p>Использованные услуги: {{ get_record.used_services }}</p>
-                <p>Назначение: {{ get_record.discharge }}</p>
+                <p>Диагноз: {{ get_record.disease }}</p>
+                <p>Лечение: {{ get_record.discharge }}</p>
                 <p>Итоговая сумма: {{ get_record.total_sum }}</p>
                 {% if get_record.payment_status == False %}
                     <p>Статус оплаты: Ожидает оплаты</p>
@@ -51,86 +52,78 @@
               <li class="nav-item">
                   <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Создать</a>
               </li>
-              {% if request.user.is_authenticated %}
-                  <li class="nav-item">
-                      {% url 'logout_page' as url_logout_page %}
-                      <a class="nav-link" href="{{ url_logout_page }}">Выйти</a>
-                  </li>
-                {{ request.user }}
-              {% endif %}
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'records_page' %}" method="get">
+                <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input type="submit" name="submit" class="btn btn-outline-success my-2 my-sm-0" value="Найти">
             </form>
           </div>
         </nav>
-
         <br><br>
-
-        <table class="table table-sm margin-top">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">№</th>
-              <th scope="col">ФИО</th>
-              <th scope="col">Дата записи</th>
-              <th scope="col">Врач</th>
-              <th scope="col">Статус</th>
-              <th scope="col">Итого</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-          {% if get_records %}
-            {% for el in get_records %}
-                <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <td>{{ el.patient.full_name }}</td>
-                  <td>{{ el.register_date }}</td>
-                  <td>{{ el.doctor.speciality }}</td>
-                  {% if el.payment_status == False%}
-                      <td>Ожидает оплаты</td>
-                  {% else %}
-                      <td>Оплатил</td>
-                  {% endif %}
-                  <td>{{ el.total_sum }}</td>
-                  <td>
-                      <a href="{% url 'record_detail_page' el.id %}"><i class="fas fa-eye"></i></a>
-                  </td>
-                  <td>
-                    {% if request.user == el.author %}
-                        <a href="{% url 'record_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
-                        <!--<a href="{% url 'patients_update_page' el.id %}">Редактировать</a>-->
-                    {% else%}
-                        Нет доступа
-                    {% endif %}
-                  </td>
-                  <td>
-                    {% if request.user == el.author %}
-
-                        <form id="delete_form{{ el.id }}" action="{% url 'record_delete_page' el.id %}" method="post">{% csrf_token %}</form>
-
-                        <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
-                        <script>
-                            function delete_record{{ el.id }}(){
-                                if (confirm("Вы уверены?")){
-                                    document.getElementById('delete_form{{ el.id }}').submit()
-                                }
-                            }
-                        </script>
-                    {% else%}
-                        Нет доступа
-                    {% endif %}
-                  </td>
-
-                </tr>
-            {% endfor %}
+          {% if object_list %}
+            <table class="table table-sm margin-top">
+                <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">№</th>
+                      <th scope="col">ФИО</th>
+                      <th scope="col">Дата записи</th>
+                      <th scope="col">Врач</th>
+                      <th scope="col">Статус</th>
+                      <th scope="col">Итого</th>
+                      <th scope="col">Просмотр</th>
+                      <th scope="col">Редактирование</th>
+                      <th scope="col">Удаление</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for el in object_list %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ el.patient.full_name }}</td>
+                          <td>{{ el.register_date }}</td>
+                          <td>{{ el.doctor.speciality }}</td>
+                          {% if el.payment_status == False%}
+                              <td>Ожидает оплаты</td>
+                          {% else %}
+                              <td>Оплатил</td>
+                          {% endif %}
+                          <td>{{ el.total_sum }}</td>
+                          <td>
+                              <a href="{% url 'record_detail_page' el.id %}"><i class="fas fa-eye"></i></a>
+                          </td>
+                          <td>
+                            {% if request.user == el.author %}
+                                <a href="{% url 'record_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
+                            {% else%}
+                                Нет доступа
+                            {% endif %}
+                          </td>
+                          <td>
+                            {% if request.user == el.author %}
+                                <form id="delete_form{{ el.id }}" action="{% url 'record_delete_page' el.id %}" method="post">{% csrf_token %}</form>
+                                <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
+                                <script>
+                                    function delete_record{{ el.id }}(){
+                                        if (confirm("Вы уверены?")){
+                                            document.getElementById('delete_form{{ el.id }}').submit()
+                                        }
+                                    }
+                                </script>
+                            {% else%}
+                                Нет доступа
+                            {% endif %}
+                          </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
           {% else %}
-            <p>Нет данных</p>
+            <tr>
+                <h3>Ничего не найдено :(</h3>
+                <a href="{% url 'records_page' %}">
+                    <button type="button" class="btn btn-secondary">Назад</button>
+                </a>
+            </tr>
           {% endif %}
-          </tbody>
-        </table>
     {% endif %}
 {% endblock %}
