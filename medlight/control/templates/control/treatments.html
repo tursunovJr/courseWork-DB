@@ -31,14 +31,13 @@
             <div class="modal-body">
                 <p>ФИО врача: {{ get_treatment.doctor.full_name }}</p>
                 <p>Специальность врача: {{ get_treatment.doctor.speciality }}</p>
-                <br><br>
                 <p>Болезнь: {{ get_treatment.disease }}</p>
-                <p>Лечение: {{ get_treatment.discharge }}</p>
+                <p>Лечение: <br> <br>{{ get_treatment.discharge.expandtabs|linebreaksbr }}
             </div>
             <div class="form-group">
                   <br>
                   <a href="{% url 'treatments_page' %}">
-                    <button type="button" class="btn btn-secondary">Назад</button>
+                    <button  style="margin-left: 10px" type="button" class="btn btn-secondary">Назад</button>
                   </a>
               </div>
     {% else %}

@@ -28,7 +28,7 @@
                 <br><br>
                 <p>Использованные услуги: {{ get_record.used_services }}</p>
                 <p>Диагноз: {{ get_record.disease }}</p>
-                <p>Лечение: {{ get_record.discharge }}</p>
+
                 <p>Итоговая сумма: {{ get_record.total_sum }}</p>
                 {% if get_record.payment_status == False %}
                     <p>Статус оплаты: Ожидает оплаты</p>

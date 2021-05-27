@@ -13,6 +13,7 @@ class Patients(models.Model):
         return '%s %s %s' %(self.full_name, self.date, self.phone)
 
     class Meta:
+        unique_together = ('author', 'full_name', 'date', 'phone')
         verbose_name = 'Пациент'
         verbose_name_plural = 'Пациенты'
 

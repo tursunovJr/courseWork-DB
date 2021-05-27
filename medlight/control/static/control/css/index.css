@@ -78,6 +78,10 @@ html {
   }
 }
 
+#payment_status {
+  margin-left: -50px;
+}
+
 /*-- Sign Styles --*/
 .sign {
   margin-top: 10%;
