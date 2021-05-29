@@ -22,6 +22,7 @@ urlpatterns = [
     path('update-treatment/<int:pk>', views.TreatmentUpdateView.as_view(), name='treatments_update_page'),
     path('delete-treatment/<int:pk>', views.TreatmentDeleteView.as_view(), name='treatments_delete_page'),
     path('treatment/<int:pk>', views.TreatmentDetailView.as_view(), name='treatment_detail_page'),
+    path('pdf', views.getpdf, name='generate_pdf'),
     #path('create-record/<int:pk>', views.RecordCreateView.as_view(), name='record_create_page'),
 
     #path('tmp/<int:pk>', views.HomeDetailView.as_view()),

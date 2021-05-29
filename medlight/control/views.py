@@ -1,4 +1,6 @@
 from django.http import request
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from django.db.models import Q
 from django.conf import settings
 from .models import Patients, Records, ServicesList, Treaments
@@ -21,8 +23,25 @@ def home_page(request):
 
 
 
+def getpdf(request):
+    print("AAAAAA", request.GET)
+    address = request.GET.dict()
+    print(address)
+    tmp1 = address["record1"]
+    tmp2 = address["record2"]
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="file.pdf"'
+    p = canvas.Canvas(response)
+    p.setFont("Times-Roman", 55)
+    p.drawString(100, 700, tmp1)
+    p.drawString(300, 700, tmp2)
+    p.showPage()
+    p.save()
+    return response
 
-#class HomeDetailView(DetailView):
+
+
+    #class HomeDetailView(DetailView):
     #model = Patients
     #template_name = 'control/tmp.html'
     #context_object_name = 'get_patient'

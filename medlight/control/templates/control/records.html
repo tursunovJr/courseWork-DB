@@ -36,11 +36,22 @@
                     <p>Статус оплаты: Оплатил</p>
                 {% endif %}
             </div>
+            <form action="/pdf" method="GET">
+                <input id="record1" name="record1" value="dada" type="hidden">
+                <input id="record2" name="record2" value="lala" type="hidden">
+                <input type="submit" value="Скачать" class="btn btn-secondary">
+                <!--<button type="button" class="btn btn-secondary" name="lala">Скачать</button>-->
+
+            </form>
         <div class="modal-footer">
             <a href="{% url 'records_page' %}">
                 <button type="button" class="btn btn-secondary">Закрыть</button>
             </a>
+            <!--<a href="{% url 'generate_pdf' %}">
+                <button type="button" class="btn btn-secondary">Скачать</button>
+            </a>-->
         </div>
+
     {% else %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
