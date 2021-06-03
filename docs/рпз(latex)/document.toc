@@ -1,0 +1,66 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {russian}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Введение}{4}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}Аналитическая часть}{5}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1}Обзор и анализ существующего программного обеспечения и обоснование необходимости разработки}{5}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.1}Medesk}{5}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.2}MEDODS}{6}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.3}Инфоклиника}{7}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.1.4}Вывод}{8}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.2}Типы и выбор Баз Данных}{8}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.1}Иерархическая база данных}{8}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.2}Сетевые базы данных}{9}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.3}Реляционные базы данных}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {1.2.4}Вывод}{11}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Конструкторская часть}{12}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1}Разработка структуры БД}{12}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2}Use-Case диаграмма БД с выделением акторов}{13}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3}IDEF0 диаграмма для функции авторизации}{13}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4}IDEF0 диаграмма для функции скачинавания рецепта на лечение}{14}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5}Вывод из конструкторской части}{14}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Технологическая часть}{15}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1}Архитектура программного обеспечения}{15}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2}Выбор среды и языка разработки серверной части}{15}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Используемые инструменты и технологии веб-приложения}{16}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Реализация}{16}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5}Интерфейс программы}{16}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6}Листинг кода}{20}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7}Вывод из технологической части}{21}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}Исследовательская часть }{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1}Системные характеристики}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2}Постановка эксперимента}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3}Вывод из исследовательской части}{22}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Заключение}{23}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Список литературы}{24}{}%

@@ -1,0 +1,220 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{postgres}{online}{}
+      \name{author}{1}{}{%
+        {{hash=d781737818ef106c8cbc5c8de5c56546}{%
+           family={Group},
+           familyi={G\bibinitperiod},
+           given={The\bibnamedelimb PostgreSQL\bibnamedelimb Global\bibnamedelima Development},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{d781737818ef106c8cbc5c8de5c56546}
+      \strng{fullhash}{d781737818ef106c8cbc5c8de5c56546}
+      \strng{bibnamehash}{d781737818ef106c8cbc5c8de5c56546}
+      \strng{authorbibnamehash}{d781737818ef106c8cbc5c8de5c56546}
+      \strng{authornamehash}{d781737818ef106c8cbc5c8de5c56546}
+      \strng{authorfullhash}{d781737818ef106c8cbc5c8de5c56546}
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 11.03.2021)}
+      \field{title}{PostgreSQL {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/
+      \endverb
+      \keyw{postgres}
+    \endentry
+    \entry{pycharm}{online}{}
+      \name{author}{1}{}{%
+        {{hash=b6a77f3f5bead76a495a90d63703e1f9}{%
+           family={JetBrains},
+           familyi={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \strng{fullhash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \strng{bibnamehash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \strng{authorbibnamehash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \strng{authornamehash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \strng{authorfullhash}{b6a77f3f5bead76a495a90d63703e1f9}
+      \field{sortinit}{J}
+      \field{sortinithash}{c45040a764d616897e7f5b30174d7b92}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 25.02.2021)}
+      \field{title}{PyCharm {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://www.jetbrains.com/ru-ru/pycharm/
+      \endverb
+      \verb{url}
+      \verb https://www.jetbrains.com/ru-ru/pycharm/
+      \endverb
+      \keyw{pycharm}
+    \endentry
+    \entry{html}{online}{}
+      \name{author}{1}{}{%
+        {{hash=502f1bd97b0e7d80b88e1f45ae1bfdb8}{%
+           family={Mozilla},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \strng{fullhash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \strng{bibnamehash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \strng{authorbibnamehash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \strng{authornamehash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \strng{authorfullhash}{502f1bd97b0e7d80b88e1f45ae1bfdb8}
+      \field{sortinit}{M}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 13.04.2021)}
+      \field{title}{htmlbook {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb http://htmlbook.ru/html
+      \endverb
+      \verb{url}
+      \verb http://htmlbook.ru/html
+      \endverb
+      \keyw{html}
+    \endentry
+    \entry{bootstrap}{online}{}
+      \name{author}{1}{}{%
+        {{hash=b0ba1bce4ce17f8e302ed8e52ddb0b73}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={Bootstrap},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \strng{fullhash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \strng{bibnamehash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \strng{authorbibnamehash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \strng{authornamehash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \strng{authorfullhash}{b0ba1bce4ce17f8e302ed8e52ddb0b73}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 23.04.2021)}
+      \field{title}{Bootstrap {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://bootstrap-4.ru/docs/4.3.1/getting-started/introduction/
+      \endverb
+      \verb{url}
+      \verb https://bootstrap-4.ru/docs/4.3.1/getting-started/introduction/
+      \endverb
+      \keyw{bootstrap}
+    \endentry
+    \entry{djangoproject}{online}{}
+      \name{author}{1}{}{%
+        {{hash=ba52cd586c51d3fc00946bc58e04944c}{%
+           family={Адриан\bibnamedelima Головатый},
+           familyi={А\bibinitperiod\bibinitdelim Г\bibinitperiod},
+           given={Саймон\bibnamedelima Уиллисон},
+           giveni={С\bibinitperiod\bibinitdelim У\bibinitperiod}}}%
+      }
+      \strng{namehash}{ba52cd586c51d3fc00946bc58e04944c}
+      \strng{fullhash}{ba52cd586c51d3fc00946bc58e04944c}
+      \strng{bibnamehash}{ba52cd586c51d3fc00946bc58e04944c}
+      \strng{authorbibnamehash}{ba52cd586c51d3fc00946bc58e04944c}
+      \strng{authornamehash}{ba52cd586c51d3fc00946bc58e04944c}
+      \strng{authorfullhash}{ba52cd586c51d3fc00946bc58e04944c}
+      \field{sortinit}{А}
+      \field{sortinithash}{bb519958f361ad3b75b2e84514e1e16a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 27.03.2021)}
+      \field{title}{Django Software Foundation {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://www.djangoproject.com/
+      \endverb
+      \verb{url}
+      \verb https://www.djangoproject.com/
+      \endverb
+      \keyw{djangoproject}
+    \endentry
+    \entry{css}{online}{}
+      \name{author}{1}{}{%
+        {{hash=31f3079bc13a83d8050ed1bb80749851}{%
+           family={Мержевич},
+           familyi={М\bibinitperiod},
+           given={Влад},
+           giveni={В\bibinitperiod}}}%
+      }
+      \strng{namehash}{31f3079bc13a83d8050ed1bb80749851}
+      \strng{fullhash}{31f3079bc13a83d8050ed1bb80749851}
+      \strng{bibnamehash}{31f3079bc13a83d8050ed1bb80749851}
+      \strng{authorbibnamehash}{31f3079bc13a83d8050ed1bb80749851}
+      \strng{authornamehash}{31f3079bc13a83d8050ed1bb80749851}
+      \strng{authorfullhash}{31f3079bc13a83d8050ed1bb80749851}
+      \field{sortinit}{М}
+      \field{sortinithash}{1f8fd8b9a988e3b087997a40e9998b5c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 17.04.2021)}
+      \field{title}{Основы CSS {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/CSS_basics
+      \endverb
+      \verb{url}
+      \verb https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/CSS_basics
+      \endverb
+      \keyw{css}
+    \endentry
+    \entry{python}{online}{}
+      \name{author}{1}{}{%
+        {{hash=78ffbbe9f21148d0df11353d3b02d830}{%
+           family={Россум},
+           familyi={Р\bibinitperiod},
+           given={Гвидо},
+           giveni={Г\bibinitperiod},
+           prefix={ван},
+           prefixi={в\bibinitperiod}}}%
+      }
+      \strng{namehash}{78ffbbe9f21148d0df11353d3b02d830}
+      \strng{fullhash}{78ffbbe9f21148d0df11353d3b02d830}
+      \strng{bibnamehash}{78ffbbe9f21148d0df11353d3b02d830}
+      \strng{authorbibnamehash}{78ffbbe9f21148d0df11353d3b02d830}
+      \strng{authornamehash}{78ffbbe9f21148d0df11353d3b02d830}
+      \strng{authorfullhash}{78ffbbe9f21148d0df11353d3b02d830}
+      \field{sortinit}{Р}
+      \field{sortinithash}{0259df1703d0d2c761f62621ecb6c6be}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 03.05.2021)}
+      \field{title}{7.	Python{[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb https://www.python.org/
+      \endverb
+      \verb{url}
+      \verb https://www.python.org/
+      \endverb
+      \keyw{python}
+    \endentry
+  \enddatalist
+  \missing{po}
+\endrefsection
+\endinput
+
