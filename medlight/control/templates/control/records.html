@@ -3,9 +3,37 @@
     {% if update_record_status %}
         <h1>Страница Редактирования</h1>
         <div class="modal-body">
-          <form id="update_form" method="post" >
+          <form  id="update_form" method="post" >
               {% csrf_token %}
-              {{ form }}
+                <div class="form-group">
+                    <label for="doctor" class="text-info">Врач:</label><br>
+                    {{ form.doctor }}
+                </div>
+                <div class="form-group">
+                    <label for="used_services" class="text-info">Использованные услуги:</label><br>
+                    {{ form.used_services }}
+                </div>
+
+                {% if request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
+                    <div class="form-group">
+                        <label for="payment_status" class="text-info">Статус оплаты:</label><br>
+                        {{ form.payment_status }}
+                    </div>
+
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="total_sum" class="text-info">Итоговая сумма:</label><br>
+                    {{ form.total_sum }}
+                </div>
+                <div class="form-group">
+                    <label for="disease" class="text-info">Диагноз:</label><br>
+                    {{ form.disease }}
+                </div>
+                <div class="form-group">
+                    <label for="discharge" class="text-info">Лечение:</label><br>
+                    {{ form.discharge }}
+                </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -28,6 +56,7 @@
                 <br><br>
                 <p>Использованные услуги: {{ get_record.used_services }}</p>
                 <p>Диагноз: {{ get_record.disease }}</p>
+                <p>Лечение: <br> <br>{{ get_record.discharge.expandtabs|linebreaksbr }}</p>
 
                 <p>Итоговая сумма: {{ get_record.total_sum }}</p>
                 {% if get_record.payment_status == False %}
@@ -36,14 +65,30 @@
                     <p>Статус оплаты: Оплатил</p>
                 {% endif %}
             </div>
-            <form action="/pdf" method="GET">
-                <input id="record1" name="record1" value="dada" type="hidden">
-                <input id="record2" name="record2" value="lala" type="hidden">
+            <script>
+                function br2nl(str){
+                    var tmp = String(str);
+                    document.getElementById('discharge').value = tmp.replace(/(?:<br>)/g, '\n');
+                }
+            </script>
+
+        <div class="modal-footer">
+            {% if get_record.payment_status == True %}
+                <form action="/pdf" method="GET">
+                <input id="patient_name" name="patient_name" value={{ get_record.patient.full_name }} type="hidden">
+                <input id="patient_birthdate" name="patient_birthdate" value={{ get_record.patient.date }} type="hidden">
+                <input id="patient_phone" name="patient_phone" value={{ get_record.patient.phone }} type="hidden">
+                <input id="reg_date" name="reg_date" value={{ get_record.register_date }} type="hidden">
+                <input id="doc_name" name="doc_name" value={{ get_record.doctor.full_name }} type="hidden">
+                <input id="doc_spec" name="doc_spec" value={{ get_record.doctor.speciality }} type="hidden">
+                <input type="hidden" id="disease" name="disease" value={{ get_record.disease }}>
+                <input id="discharge" name="discharge" type="hidden"  value="{{ get_record.discharge.expandtabs.splitlines }}">
+
                 <input type="submit" value="Скачать" class="btn btn-secondary">
                 <!--<button type="button" class="btn btn-secondary" name="lala">Скачать</button>-->
 
             </form>
-        <div class="modal-footer">
+            {% endif %}
             <a href="{% url 'records_page' %}">
                 <button type="button" class="btn btn-secondary">Закрыть</button>
             </a>
@@ -59,9 +104,6 @@
               <li>
                   {% url 'home_page' as url_home_page %}
                     <a class="nav-link" href="{{ url_home_page }}">Главная</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Создать</a>
               </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="{% url 'records_page' %}" method="get">
@@ -103,14 +145,14 @@
                               <a href="{% url 'record_detail_page' el.id %}"><i class="fas fa-eye"></i></a>
                           </td>
                           <td>
-                            {% if request.user == el.author %}
+                            {% if request.user == el.author or request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
                                 <a href="{% url 'record_update_page' el.id %}"> <i class="fas fa-pencil-alt"></i> </a>
                             {% else%}
                                 Нет доступа
                             {% endif %}
                           </td>
                           <td>
-                            {% if request.user == el.author %}
+                            {% if request.user == el.author or request.user.username == 'admin' and request.user.password == 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU=' %}
                                 <form id="delete_form{{ el.id }}" action="{% url 'record_delete_page' el.id %}" method="post">{% csrf_token %}</form>
                                 <a href="javascript:void()" onclick="delete_record{{ el.id }}()"><i class="fas fa-trash-alt"></i></a>
                                 <script>

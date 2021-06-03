@@ -37,10 +37,6 @@
                     {{ form.doctor }}
                 </div>
                 <div class="form-group">
-                    <label for="payment_status" class="text-info">Статус оплаты:</label><br>
-                    <input style="margin-left: -800px; margin-top: 10px; margin-bottom: -25px;" id="payment_status" type="checkbox" name="payment_status"  class="form-control">
-                </div>
-                <div class="form-group">
                     <label for="used_services" class="text-info">Использованные услуги:</label><br>
                     <input id="used_services" type="text" name="used_services"  class="form-control">
                     <script>
@@ -82,10 +78,18 @@
                 </div>
                 <div class="form-group">
                     <label for="discharge" class="text-info">Лечение:</label><br>
-                    <input id="discharge"  type="text" name="discharge" class="form-control">
+                    <textarea name="discharge" id="discharge" cols="70" rows="20" class="form-control"></textarea>
+                    <!--<input id="discharge"  type="text" name="discharge" class="form-control">-->
+                    <script>
+                        function br2nl(str){
+                            var tmp = String(str);
+                            document.getElementById('discharge').value = tmp.replace(/(?:<br>)/g, '\n');
+                        }
+                    </script>
                     {% if list_treatments %}
                         {% for el in list_treatments %}
-                            <button style="margin-top: 15px" type="button" onclick="document.getElementById('discharge').value = '{{ el.discharge }}'" class="btn btn-info">{{ el.disease }}</button>
+                            <button style="margin-top: 15px" type="button" onclick="document.getElementById('discharge').value = '{{ el.discharge.expandtabs|linebreaksbr }}'" class="btn btn-info">{{ el.disease }}</button>
+                            <!--<button style="margin-top: 15px" type="button" onclick="br2nl({{ el.discharge.expandtabs|linebreaksbr }})" class="btn btn-info">{{ el.disease }}</button>-->
                         {% endfor %}
                         <button style="margin-top: 15px" type="button" onclick="document.getElementById('discharge').value = ''" class="btn btn-info">Удалить</button>
                     {% else %}

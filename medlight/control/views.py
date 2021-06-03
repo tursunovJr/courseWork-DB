@@ -1,5 +1,9 @@
 from django.http import request
+from pytz import unicode
 from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from slugify import slugify
 from django.http import HttpResponse
 from django.db.models import Q
 from django.conf import settings
@@ -24,17 +28,49 @@ def home_page(request):
 
 
 def getpdf(request):
-    print("AAAAAA", request.GET)
-    address = request.GET.dict()
-    print(address)
-    tmp1 = address["record1"]
-    tmp2 = address["record2"]
+    record = request.GET.dict()
+    patient_name = record["patient_name"]
+    patient_birthdate = record["patient_birthdate"]
+    patient_phone = record["patient_phone"]
+    reg_date = record["reg_date"]
+    #print("DATA", reg_date)
+    doc_name = record["doc_name"]
+    doc_spec = record["doc_spec"]
+    disease = record["disease"]
+    discharge = record["discharge"]
+    total  = ""
+    count = 0
+    arr = []
+    for i in range(len(discharge)):
+        if discharge[i] == "'":
+            if count == 1:
+                arr.append(total)
+                count = 0
+                total = ""
+            count = 1
+        elif discharge[i] not in ["'", ",", "[", "]"]:
+            total += str(discharge[i])
+
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="file.pdf"'
+    response['Content-Disposition'] = 'attachment; filename=".pdf"'
     p = canvas.Canvas(response)
-    p.setFont("Times-Roman", 55)
-    p.drawString(100, 700, tmp1)
-    p.drawString(300, 700, tmp2)
+    pdfmetrics.registerFont(TTFont('FreeSans', 'FreeSans.ttf'))
+    p.setFont('FreeSans', 15)
+    #p.setFont("Arial", 20)
+    p.drawString(250, 800, "MedLight Clinic")
+    p.drawString(10, 760, "ФИО: " + patient_name)
+    #p.drawString(10, 740, "Дата Рождения: " + patient_birthdate)
+    p.drawString(10, 740, "Номер телефона: " + patient_phone)
+    #p.drawString(10, 700, "Дата приёма пациента: " + reg_date)
+    p.drawString(10, 700, "ФИО Врача: " + doc_name)
+    p.drawString(10, 680, "Специальность Врача: " + doc_spec)
+    p.drawString(10, 640, "Диагноз: " + disease)
+    p.drawString(250, 600, "Лечение")
+    x = 0
+    for i in arr:
+        if i != " ":
+            p.drawString(20, 580 - x, i)
+            x += 20
     p.showPage()
     p.save()
     return response
@@ -73,7 +109,7 @@ class PatientCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateVie
     template_name = 'control/patients.html'
     form_class = PatientForm
     success_url = reverse_lazy('patients_page')
-    #success_msg = 'Пациент создан'
+    success_msg = 'Данные пациента созданы'
     #def get_context_data(self, **kwargs):
         #kwargs['list_patients'] = Patients.objects.all()
         #return super().get_context_data(**kwargs)
@@ -89,15 +125,21 @@ class PatientCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateVie
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
-        self.object.save()
-        return super().form_valid(form)
+        slug1 = slugify(form.cleaned_data['full_name'])
+        slug2 = slugify(form.cleaned_data['date'].strftime('%Y-%m-%d'))
+        slug3 = slugify(form.cleaned_data['phone'])
+        if not Patients.objects.filter(full_name=slug1, date=slug2, phone=slug3).exists():
+            self.object.save()
+            return super().form_valid(form)
+        else:
+            return self.handle_no_permission()
 
 class PatientUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView):
     model = Patients
     template_name = 'control/patients.html'
     form_class = PatientForm
     success_url = reverse_lazy('patients_page')
-    #success_msg = 'Запись обновлена'
+    success_msg = 'Данные пациента обновлены'
     def get_context_data(self, **kwargs):
         kwargs['update_status'] = True
         return super().get_context_data(**kwargs)
@@ -113,7 +155,7 @@ class PatientDeleteView(LoginRequiredMixin, DeleteView):
     model = Patients
     template_name = 'control/patients.html'
     success_url = reverse_lazy('patients_page')
-    success_msg = 'Запись удалена'
+    success_msg = 'Данные пациента удалены'
     def post(self, request, *args, **kwargs):
         messages.success(self.request, self.success_msg)
         return super().post(request)
@@ -184,7 +226,7 @@ class RecordUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateView
         kwargs = super().get_form_kwargs()
         #print(kwargs['instance'].author)
         #print(self.request.user)
-        if self.request.user != kwargs['instance'].author:
+        if self.request.user != kwargs['instance'].author and (self.request.user.username != 'admin' and self.request.user.password != 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU='):
             return self.handle_no_permission()
         return kwargs
 
@@ -198,8 +240,10 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
         return super().post(request)
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.request.user != self.object.author:
+        if self.request.user != self.object.author and (self.request.user.username != 'admin' and self.request.user.password != 'pbkdf2_sha256$260000$2TYARnlkN2c2iEz7KXnlZD$4OpejOwM0qcDD2odV2+trkiPRSV31156RVQEU78WdfU='):
             return self.handle_no_permission()
+        #if self.request.user != self.object.author:
+            #return self.handle_no_permission()
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
@@ -220,7 +264,7 @@ class ServicesCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateVi
     template_name = 'control/services.html'
     form_class = ServiceForm
     success_url = reverse_lazy('services_page')
-    #success_msg = 'Пациент создан'
+    success_msg = 'Услуга создана'
     #def get_context_data(self, **kwargs):
         #kwargs['list_services'] = ServicesList.objects.all()
         #kwargs['create_status'] = True
@@ -237,8 +281,13 @@ class ServicesCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateVi
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
-        self.object.save()
-        return super().form_valid(form)
+        slug1 = slugify(form.cleaned_data['name'])
+        #slug2 = slugify(form.cleaned_data['price'])
+        if not ServicesList.objects.filter(name=slug1).exists():
+            self.object.save()
+            return super().form_valid(form)
+        else:
+            return self.handle_no_permission()
 
 #class ServicesListView(ListView):
     #model = ServicesList
@@ -260,7 +309,7 @@ class ServiceUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateVie
     template_name = 'control/services.html'
     form_class = ServiceForm
     success_url = reverse_lazy('services_page')
-    #success_msg = 'Запись обновлена'
+    success_msg = 'Услуга обновлена'
     def get_context_data(self, **kwargs):
         kwargs['update_status'] = True
         return super().get_context_data(**kwargs)
@@ -296,7 +345,7 @@ class TreatmentCreateView(LoginRequiredMixin, CustomSuccessMessageMixin, CreateV
     template_name = 'control/treatments.html'
     form_class = TreatmentForm
     success_url = reverse_lazy('treatments_page')
-    #success_msg = 'Пациент создан'
+    success_msg = 'Стандарное лечение создано'
     #def get_context_data(self, **kwargs):
         #kwargs['list_treatments'] = Treaments.objects.all()
         #kwargs['create_record'] = True
@@ -323,7 +372,7 @@ class TreatmentUpdateView(LoginRequiredMixin, CustomSuccessMessageMixin, UpdateV
     template_name = 'control/treatments.html'
     form_class = TreatmentForm
     success_url = reverse_lazy('treatments_page')
-    #success_msg = 'Запись обновлена'
+    success_msg = 'Стандарное лечение обновлено'
     def get_context_data(self, **kwargs):
         kwargs['update_status'] = True
         return super().get_context_data(**kwargs)
@@ -339,7 +388,7 @@ class TreatmentDeleteView(LoginRequiredMixin, DeleteView):
     model = Treaments
     template_name = 'control/treatments.html'
     success_url = reverse_lazy('treatments_page')
-    success_msg = 'Лечение удалено'
+    success_msg = 'Стандарное лечение удалено'
     def post(self, request, *args, **kwargs):
         messages.success(self.request, self.success_msg)
         return super().post(request)
